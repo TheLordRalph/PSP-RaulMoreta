@@ -21,7 +21,7 @@ public class Main {
             for (Path pathOfFile : Path1) {
                 // Se crea una clase "WordCounte" a la que le pasamos el path del primer archivo y contamos sus palabras.
                 WordCounter wordCounter = new WordCounter(pathOfFile);
-                wordCounter.counter();
+                wordCounter.start();
             }
         } catch (IOException e) {
             e.printStackTrace();
