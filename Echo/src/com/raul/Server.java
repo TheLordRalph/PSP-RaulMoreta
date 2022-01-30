@@ -37,9 +37,9 @@ public class Server {
                 BufferedReader socketIn = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
                 PrintWriter socketOut = new PrintWriter(clienteSocket.getOutputStream(), true)
         ){
-            String line;
-            while ((line = socketIn.readLine()) != null) {
-                socketOut.println(line);
+            StringBuilder line;
+            while ((line = new StringBuilder(socketIn.readLine())) != null) {
+                socketOut.println(line.reverse());
             }
         }
     }
