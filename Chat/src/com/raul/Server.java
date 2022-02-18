@@ -1,18 +1,16 @@
 package com.raul;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.Observable;
 
 public class Server {
-
     public static final int MAX_PORT_NUMBER = 65535;
     public static final int MIN_PORT_NUMBER = 1;
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException {
+
         if (args.length < 1) {
             System.err.println("Usage: java Server <port number>");
             System.exit(1);
@@ -27,23 +25,24 @@ public class Server {
         }
 
         if (portNumber < MIN_PORT_NUMBER || portNumber > MAX_PORT_NUMBER) {
-            System.err.printf("<port number> must be an integrer value between %d and %d%n", MIN_PORT_NUMBER, MAX_PORT_NUMBER);
+            System.err.printf("<port number> must be an integer value between %d and %d%n", MIN_PORT_NUMBER, MAX_PORT_NUMBER);
             System.exit(1);
         }
 
         try (
-                ServerSocket socket = new ServerSocket(portNumber);
-                Socket clienteSocket = socket.accept();
-                BufferedReader socketIn = new BufferedReader(new InputStreamReader(clienteSocket.getInputStream()));
-                PrintWriter socketOut = new PrintWriter(clienteSocket.getOutputStream(), true)
+                ServerSocket serverSocket = new ServerSocket(portNumber);
         ) {
-            StringBuilder line;
-            while ((line = new StringBuilder(socketIn.readLine())) != null) {
-                socketOut.println(line.reverse());
+            Observable channel = new Channel();
+            while (true) {
+                Socket clientSocket = serverSocket.accept();
+                System.out.printf("%s connected%n", clientSocket.toString());
+                PeerConnection peerConnection = new PeerConnection(clientSocket, channel);
+                peerConnection.start();
             }
         } catch (java.net.BindException e) {
-            System.err.printf("port %d is alredy in use", portNumber);
+            System.err.printf("port %d is already in use%n", portNumber);
             System.exit(1);
         }
     }
 }
+

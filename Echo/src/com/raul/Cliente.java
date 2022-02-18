@@ -31,7 +31,7 @@ public class Cliente {
         }
 
         InetAddress localHost = InetAddress.getLocalHost();
-        try (Socket socket = new Socket(localHost ,portNumber);
+        try (Socket socket = new Socket(localHost, portNumber);
              BufferedReader socketIn = new BufferedReader(new InputStreamReader(socket.getInputStream()));
              PrintWriter socketOut = new PrintWriter(socket.getOutputStream(), true);
              BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in))
