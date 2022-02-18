@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -14,6 +16,9 @@ public class PeerConnection extends Thread implements Observer {
     private final Observable observable;
     private final PrintWriter socketOut;
     private String nickname = "unknown";
+
+    SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+    Date fehcActual;
 
     public PeerConnection(Socket clientSocket, Observable observable) throws IOException {
         this.clientSocket = clientSocket;
@@ -39,7 +44,8 @@ public class PeerConnection extends Thread implements Observer {
                         }
                     }
                 } else {
-                    observable.notifyObservers(String.format("[%s] %s", this.nickname, line));
+                    fehcActual = new Date();
+                    observable.notifyObservers(String.format("[%s] [%s] %s", sdf.format(fehcActual), this.nickname, line));
                 }
             }
         } catch (IOException e) {
