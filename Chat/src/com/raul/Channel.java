@@ -1,6 +1,6 @@
 package com.raul;
 
-import java.util.Observable;
+import com.raul.Observable;
 
 public class Channel extends Observable {
     @Override

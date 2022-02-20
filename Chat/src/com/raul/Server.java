@@ -3,7 +3,7 @@ package com.raul;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.Observable;
+import com.raul.Observable;
 
 public class Server {
     public static final int MAX_PORT_NUMBER = 65535;
